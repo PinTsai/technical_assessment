@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import '../app_theme.dart';
 import '../data/post_model.dart';
 
+// Stateless widget for display post detail information
 class PostDetailScreen extends StatelessWidget {
   final Post post;
 
   const PostDetailScreen({super.key, required this.post});
 
+  // Return a widget with post detail
   @override
   Widget build(BuildContext context) {
     return Scaffold(

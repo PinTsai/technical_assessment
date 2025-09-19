@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:technical_assessment/data/post_model.dart';
 import 'package:technical_assessment/services/postApi.dart';
 import 'package:http/http.dart' as http;
@@ -25,8 +24,8 @@ void main() {
 
         // Arrange
         final mockJson = jsonEncode( [
-          {"id": 1, "title": "Test Post 1", "body": "Hello world"},
-          {"id": 2, "title": "Test Post 2", "body": "Another post"}
+          {"userId": 1, "id": 1, "title": "Test Post 1", "body": "Hello world"},
+          {"userId": 2, "id": 2, "title": "Test Post 2", "body": "Another post"}
         ]);
         
         when(mockClient.get(
@@ -59,11 +58,17 @@ void main() {
                 http.Response('Not Found', 404)
         );
 
-        // Act
-        final posts = await postApi.getPosts();
-
-        // Assert
-        expect(posts, throwsException);
+        // Act & Assert
+        expect(
+              () => postApi.getPosts(),
+          throwsA(
+            isA<Exception>().having(
+                  (e) => e.toString(),
+              'message',
+              contains('HTTP 404'),
+            ),
+          ),
+        );
 
       });
 
@@ -78,11 +83,12 @@ void main() {
             Exception("Network issue")
         );
 
-        // Act
-        final posts = await postApi.getPosts();
 
-        // Assert
-        expect(posts, throwsException);
+        // Act & Assert
+        expect(
+              () => postApi.getPosts(),
+          throwsA(isA<Exception>()),
+        );
       });
 
     });
