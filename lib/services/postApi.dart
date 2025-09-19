@@ -3,23 +3,32 @@ import 'dart:convert';
 import 'package:technical_assessment/data/post_model.dart';
 
 class PostApi {
-  static const baseUrl = "https://jsonplaceholder.typicode.com";
-  static const posts = "/posts";
-  static const users = "/users";
+  final baseUrl = "https://jsonplaceholder.typicode.com";
+  final posts = "/posts";
+  final http.Client client;
+  PostApi(this.client);
 
-
-  static Future<List<Post>> getPosts() async {
+    Future<List<Post>> getPosts() async {
     try {
-      final response = await http.get (
-          Uri.parse("$baseUrl+ $posts"),
+      final url = "$baseUrl$posts";
+      // print("Making request to: $url");
+
+      final response = await client.get(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
       );
 
-      if (response.statusCode == 200) {
+    if (response.statusCode == 200) {
         final List<dynamic> jsonList = jsonDecode(response.body);
         return jsonList.map((json) => Post.fromJson(json)).toList();
       } else {
-        throw Exception("Failed to load posts");
+        throw Exception("HTTP ${response.statusCode}: Failed to load posts");
       }
     } catch (e) {
-  throw Exception("Network error: $e");
+      throw Exception("Network error: $e");
+    }
   }
+}
