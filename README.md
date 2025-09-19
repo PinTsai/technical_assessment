@@ -38,7 +38,8 @@ A simple Flutter app that fetches posts from [JSONPlaceholder](https://jsonplace
    
 ## Running the App
    ```bash
-   flutter runfew
+   flutter run
+   ```
 
 ---
 
@@ -65,14 +66,17 @@ The app implements Provider pattern with ChangeNotifier for state management:
 Running All Tests
 ```bash
 flutter test
+```
 
 Running Unit Tests Only
 ```bash
 flutter test test/unit/
+```
 
 Running Widget Tests Only
 ```bash
 flutter test test/widget/
+```
 
 
 
